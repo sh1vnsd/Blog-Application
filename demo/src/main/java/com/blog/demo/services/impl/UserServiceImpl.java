@@ -1,12 +1,16 @@
 package com.blog.demo.services.impl;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import com.blog.demo.models.User;
 import com.blog.demo.payloads.UserDto;
 import com.blog.demo.repository.UserRepo;
 import com.blog.demo.services.UserService;
+import com.blog.demo.exceptions.*;
 
+@Service
 public class UserServiceImpl implements UserService{
     
     @Autowired
@@ -20,26 +24,45 @@ public class UserServiceImpl implements UserService{
    }
 
     @Override
-    public UserDto updateUser(UserDto user, Integer userId) {
+    public UserDto updateUser(UserDto userDto, Integer userId) {
+        //Get
+        User user = this.userRepo.findById(userId)
+                .orElseThrow(()-> new ResourceNotFoundException("User", " Id ", userId));
+
+        //Set
+        user.setName(userDto.getName());
+        user.setEmail(userDto.getEmail());
+        user.setPassword(userDto.getPassword());
+        user.setAbout(userDto.getAbout());
         
+        //Update
+        User updatedUser = this.userRepo.save(user);
+        UserDto userDto1 = this.userToDto(updatedUser);
+        return userDto1;
     }
 
     @Override
     public UserDto getUserById(Integer userId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getUserById'");
+        User user = this.userRepo.findById(userId)
+                .orElseThrow(()-> new ResourceNotFoundException("User", " Id ", userId));
+        
+        return this.userToDto(user);
     }
 
     @Override
     public List<UserDto> getAllUsers() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAllUsers'");
+        List<User> users = this.userRepo.findAll();
+        List<UserDto> userDtos = users.stream().map(user -> this.userToDto(user)).collect(Collectors.toList());
+
+        return userDtos;
     }
 
     @Override
     public void deleteUser(Integer userId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteUser'");
+        User user = this.userRepo.findById(userId)
+                    .orElseThrow(() -> new ResourceNotFoundException("User", "Id", userId));
+        
+        this.userRepo.delete(user);
     }
 
     //Entity to DTO

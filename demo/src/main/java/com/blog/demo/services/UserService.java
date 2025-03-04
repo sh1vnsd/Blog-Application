@@ -1,8 +1,10 @@
 package com.blog.demo.services;
 
 import java.util.List;
+import org.springframework.stereotype.Service;
 import com.blog.demo.models.User;
 import com.blog.demo.payloads.UserDto;
+
 
 public interface UserService {
     
