@@ -7,6 +7,9 @@ import java.util.stream.Collectors;
 import com.blog.demo.models.Category;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import com.blog.demo.exceptions.ResourceNotFoundException;
 import com.blog.demo.models.Post;
@@ -66,9 +69,15 @@ public class PostServiceImpl implements PostService{
         this.postRepo.delete(post);
     }
 
-    @Override
-    public List<PostDto> getAllPost() {
-        List<Post> allPosts = this.postRepo.findAll();
+    @Override                       //USED ------- FOR ------- PAGINATION
+    public List<PostDto> getAllPost(Integer pageNumber, Integer pageSize) {
+        
+        //--> Pagination Started <--
+        PageRequest p = PageRequest.of(pageNumber, pageSize);
+        Page<Post> pagePost = this.postRepo.findAll(p);
+        List<Post> allPosts = pagePost.getContent();
+        //--> Pagination Ended <--
+
         //As we can see we are getting the data in "Post" but we want to convert it to "PostDto "" so we use modelmapper"
         List<PostDto> postDtos = allPosts.stream().map((post)-> this.modelMapper.map(post, PostDto.class)).collect(Collectors.toList());
         return postDtos;
