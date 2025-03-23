@@ -2,6 +2,7 @@ package com.blog.demo.services.impl;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import com.blog.demo.models.Category;
 import org.modelmapper.ModelMapper;
@@ -62,15 +63,18 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override
-    public List<Post> getAllPosts() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAllPosts'");
+    public List<PostDto> getAllPost() {
+        List<Post> allPosts = this.postRepo.findAll();
+        //As we can see we are getting the data in "Post" but we want to convert it to "PostDto "" so we use modelmapper"
+        List<PostDto> postDtos = allPosts.stream().map((post)-> this.modelMapper.map(post, PostDto.class)).collect(Collectors.toList());
+        return postDtos;
     }
 
     @Override
-    public Post getPostById(Integer postId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getPostById'");
+    public PostDto getPostById(Integer postId) {
+        Post post = this.postRepo.findById(postId).orElseThrow(()-> new ResourceNotFoundException("Post", "Post ID", postId));
+        //As we can see we are getting the data in "Post" but we want to convert it to "PostDto "" so we use modelmapper"
+        return this.modelMapper.map(post, PostDto.class);
     }
 
     @Override

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import com.blog.demo.models.Post;
 import com.blog.demo.payloads.PostDto;
 import com.blog.demo.services.PostService;
 
@@ -31,6 +32,9 @@ public class PostController {
                             return new ResponseEntity<PostDto>(createPost,HttpStatus.CREATED);
     }
 
+    
+
+
     //Get By User
     @GetMapping("/user/{userId}/posts")
     public ResponseEntity<List<PostDto>> getPostsByUser(@PathVariable Integer userId){
@@ -44,4 +48,18 @@ public class PostController {
         List<PostDto> posts = this.postService.getPostsByCategory(categoryId);
         return new ResponseEntity<List<PostDto>>(posts, HttpStatus.OK);
     }
+
+    //Get all post
+    @GetMapping("/posts")
+    public ResponseEntity<List<PostDto>> getAllPost(){
+        List<PostDto> allPost = this.postService.getAllPost();
+        return new ResponseEntity<List<PostDto>>(allPost, HttpStatus.OK);
+    }
+
+    //Get Single Post
+    @GetMapping("/posts/{postId}")
+    public ResponseEntity<PostDto> getPostById(@PathVariable Integer postId){
+        PostDto postDto = this.postService.getPostById(postId);
+        return new ResponseEntity<PostDto>(postDto, HttpStatus.OK);
+    }   
 }
