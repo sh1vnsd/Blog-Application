@@ -10,7 +10,7 @@ public interface PostService {
     PostDto createPost(PostDto postDto, Integer userId, Integer categoryId);
 
     //update post
-    Post updatePost(PostDto postDto, Integer postId);
+    PostDto updatePost(PostDto postDto, Integer postId);
 
     //delete Post
     void deletePost(Integer postId);

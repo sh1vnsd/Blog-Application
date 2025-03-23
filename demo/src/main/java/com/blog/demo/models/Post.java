@@ -1,6 +1,7 @@
 package com.blog.demo.models;
 
 import java.util.Date;
+import com.blog.demo.payloads.CategoryDto;
 import jakarta.annotation.Generated;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
