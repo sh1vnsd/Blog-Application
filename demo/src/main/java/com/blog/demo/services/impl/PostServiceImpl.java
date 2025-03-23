@@ -2,6 +2,7 @@ package com.blog.demo.services.impl;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 import com.blog.demo.models.Category;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,15 +74,26 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override
-    public List<Post> getPostByCategory(Integer categoryId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getPostByCategory'");
+    public List<PostDto> getPostsByCategory(Integer categoryId) {
+        //Fetching the category with the categoryId 
+        Category cat = this.categoryRepo.findById(categoryId).orElseThrow(()-> new ResourceNotFoundException("Category", "Category ID", categoryId));
+        List<Post> posts = this.postRepo.findByCategory(cat);
+
+        //Used to convert List of post entities into a list of PostDto
+        List<PostDto> postDtos = posts.stream().map((post) -> this.modelMapper.map(post, PostDto.class)).collect(Collectors.toList());
+
+        return postDtos;
     }
 
     @Override
-    public List<Post> getPostByUser(Integer userId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getPostByUser'");
+    public List<PostDto> getPostsByUser(Integer userId) {
+        //Fetching the user with userId
+        User user = this.userRepo.findById(userId).orElseThrow(()-> new ResourceNotFoundException("User", "User ID", userId));
+
+        List<Post> posts = this.postRepo.findByUser(user);
+
+        List<PostDto> postDtos = posts.stream().map((post) -> this.modelMapper.map(post, PostDto.class)).collect(Collectors.toList());
+        return postDtos;
     }
 
     @Override
