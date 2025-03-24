@@ -13,6 +13,8 @@ public interface PostRepo extends JpaRepository<Post, Integer> {
     //Custom Finder Methods
     List<Post> findByUser(User user);
     List<Post> findByCategory(Category category);
+
+    //by default we dont get the method to search so we have created this
     List<Post> findByTitleContaining(String title);
     
 }
