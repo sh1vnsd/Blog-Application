@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import com.blog.demo.exceptions.ResourceNotFoundException;
 import com.blog.demo.models.Post;
@@ -71,10 +72,11 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override                       //USED ------- FOR ------- PAGINATION
-    public PostResponse getAllPost(Integer pageNumber, Integer pageSize) {
-        
+    public PostResponse getAllPost(Integer pageNumber, Integer pageSize, String sortBy, String sortDir) {
+        Sort sort = (sortDir.equalsIgnoreCase("asc")) ? Sort.by(sortBy).ascending() :  Sort.by(sortBy).descending();
+
         //--> Pagination Started <--
-        PageRequest p = PageRequest.of(pageNumber, pageSize);
+        PageRequest p = PageRequest.of(pageNumber, pageSize, sort);
         Page<Post> pagePost = this.postRepo.findAll(p);
         List<Post> allPosts = pagePost.getContent();
         //--> Pagination Ended <--

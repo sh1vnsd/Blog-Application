@@ -1,6 +1,8 @@
 package com.blog.demo.repository;
 
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import com.blog.demo.models.Category;
 import com.blog.demo.models.Post;
@@ -12,4 +14,5 @@ public interface PostRepo extends JpaRepository<Post, Integer> {
     List<Post> findByUser(User user);
     List<Post> findByCategory(Category category);
     List<Post> findByTitleContaining(String title);
+    
 }
