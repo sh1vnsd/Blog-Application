@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.blog.demo.models.Post;
 import com.blog.demo.payloads.ApiResponse;
 import com.blog.demo.payloads.PostDto;
+import com.blog.demo.payloads.PostResponse;
 import com.blog.demo.services.PostService;
 
 @RestController
@@ -55,12 +56,12 @@ public class PostController {
 
     //Get all post
     @GetMapping("/posts")
-    public ResponseEntity<List<PostDto>> getAllPost(
+    public ResponseEntity<PostResponse> getAllPost(
                 //Using RequestParam to get the parameter from the API
-                @RequestParam(value = "pageNumber", defaultValue = "1", required = false) Integer pageNumber,
-                @RequestParam(value = "pageSize", defaultValue = "5", required = false) Integer pageSize){
-        List<PostDto> allPost = this.postService.getAllPost(pageNumber, pageSize);
-        return new ResponseEntity<List<PostDto>>(allPost, HttpStatus.OK);
+                @RequestParam(value = "pageNumber", defaultValue = "0", required = false) Integer pageNumber,
+                @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize){
+       PostResponse postResponse = this.postService.getAllPost(pageNumber, pageSize);
+        return new ResponseEntity<PostResponse>(postResponse, HttpStatus.OK);
     }
 
     //Get Single Post

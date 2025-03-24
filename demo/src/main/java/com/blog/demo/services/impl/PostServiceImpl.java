@@ -15,6 +15,7 @@ import com.blog.demo.exceptions.ResourceNotFoundException;
 import com.blog.demo.models.Post;
 import com.blog.demo.models.User;
 import com.blog.demo.payloads.PostDto;
+import com.blog.demo.payloads.PostResponse;
 import com.blog.demo.repository.CategoryRepo;
 import com.blog.demo.repository.PostRepo;
 import com.blog.demo.repository.UserRepo;
@@ -70,7 +71,7 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override                       //USED ------- FOR ------- PAGINATION
-    public List<PostDto> getAllPost(Integer pageNumber, Integer pageSize) {
+    public PostResponse getAllPost(Integer pageNumber, Integer pageSize) {
         
         //--> Pagination Started <--
         PageRequest p = PageRequest.of(pageNumber, pageSize);
@@ -80,7 +81,19 @@ public class PostServiceImpl implements PostService{
 
         //As we can see we are getting the data in "Post" but we want to convert it to "PostDto "" so we use modelmapper"
         List<PostDto> postDtos = allPosts.stream().map((post)-> this.modelMapper.map(post, PostDto.class)).collect(Collectors.toList());
-        return postDtos;
+
+        PostResponse postResponse = new PostResponse();
+
+        postResponse.setContent(postDtos);
+        postResponse.setPageNUmber(pagePost.getNumber());
+        postResponse.setPageSize(pagePost.getSize());
+        postResponse.setTotalElements(pagePost.getTotalElements());
+        postResponse.setTotalPages(pagePost.getTotalPages());
+        postResponse.setLastPage(pagePost.isLast());
+
+
+
+        return postResponse;
     }
 
     @Override
