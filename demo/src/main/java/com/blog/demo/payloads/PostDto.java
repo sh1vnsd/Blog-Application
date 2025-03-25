@@ -1,7 +1,10 @@
 package com.blog.demo.payloads;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import com.blog.demo.models.Category;
+import com.blog.demo.models.Comment;
 import com.blog.demo.models.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,4 +28,8 @@ public class PostDto {
     private CategoryDto category;
 
     private UserDto user;
+    
+
+    //Whenever we will fetch post we will get comments automatically
+    private Set<CommentDto> comments = new HashSet<>();
 }

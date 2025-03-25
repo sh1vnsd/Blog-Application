@@ -1,7 +1,9 @@
 package com.blog.demo.models;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import org.hibernate.annotations.Collate;
 import org.springframework.beans.factory.annotation.Autowire;
 import jakarta.annotation.Generated;
@@ -40,4 +42,5 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Post> posts = new ArrayList<>();
+
 }
