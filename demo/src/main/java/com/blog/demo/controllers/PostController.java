@@ -29,7 +29,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import com.blog.demo.services.FileService;
 
 @RestController
-@RequestMapping("/api/")
+@RequestMapping("/api")
 public class PostController {
 
     @Autowired
@@ -102,7 +102,7 @@ public class PostController {
         return new ResponseEntity<PostDto>(updatePost, HttpStatus.OK);
 
     }
-
+    
     //Search Post
     @GetMapping("/posts/search/{keywords}")
     public ResponseEntity<List<PostDto>> searchPostByTitle(@PathVariable("keywords") String keywords){
