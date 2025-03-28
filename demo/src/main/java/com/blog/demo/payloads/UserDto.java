@@ -2,6 +2,7 @@ package com.blog.demo.payloads;
 
 
 
+import com.blog.demo.models.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
@@ -9,6 +10,9 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @NoArgsConstructor
 @Getter
@@ -31,4 +35,6 @@ public class UserDto {
     @NotEmpty
     private String about;
 
+
+    private Set<RoleDto> roles = new HashSet<>();
 }

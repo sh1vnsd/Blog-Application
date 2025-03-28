@@ -1,5 +1,7 @@
 package com.blog.demo;
 
+import com.blog.demo.config.AppConstants;
+import com.blog.demo.repository.RoleRepo;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -7,12 +9,18 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import com.blog.demo.models.Role;
+
+import java.util.List;
 
 @SpringBootApplication //This annotation proivde Configuration classes annotation features
 public class BlogApiApplication implements CommandLineRunner {
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+
+	@Autowired
+	private RoleRepo roleRepo;
 
 	public static void main(String[] args) {
 		SpringApplication.run(BlogApiApplication.class, args);
@@ -28,5 +36,28 @@ public class BlogApiApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		System.out.println(this.passwordEncoder.encode("umangUser"));
+
+
+		//If someone is running our app first time this will automatically set the roles
+		try{
+
+			Role role = new Role();
+			role.setId(AppConstants.ADMIN_USER);
+			role.setName("ADMIN_USER");
+
+			Role role1 = new Role();
+			role1.setId(AppConstants.NORMAL_USER);
+			role1.setName("NORMAL_USER");
+
+			List<Role> roles = List.of(role, role1);
+
+			List<Role> result = this.roleRepo.saveAll(roles);
+
+			for(var r : result){
+				System.out.println(r.getName());
+			};
+		} catch	(Exception e){
+			e.printStackTrace();
+		}
 	}
 }

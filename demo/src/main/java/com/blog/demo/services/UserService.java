@@ -9,6 +9,7 @@ import com.blog.demo.payloads.UserDto;
 public interface UserService {
     
 
+    UserDto registerNewUser(UserDto userDto);
 
     UserDto createUser(UserDto user);
 
