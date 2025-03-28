@@ -14,17 +14,6 @@ import java.util.Collections;
 @Service
 public class CustomUserDetailService implements UserDetailsService {
 
-//    @Autowired
-//    private UserRepo userRepo;
-//    @Override
-//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//
-//        //loading user from database by username
-//        User user = this.userRepo.findByEmail(username)
-//                .orElseThrow(() -> new CustomUsernameNotFoundException("User", "email", username));
-//        return user;
-//    }
-
     @Autowired
     private UserRepo userRepo;
     @Override
@@ -33,10 +22,6 @@ public class CustomUserDetailService implements UserDetailsService {
         System.out.println("email: " + email); // this is not getting us the username of the user after the user tried to access a resource using the access_token
         User user = this.userRepo.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User", "Email : " + email, 0));
         return user;
-//        return new org.springframework.security.core.userdetails.User(
-//                user.getUsername(),
-//                user.getPassword(),
-//                Collections.emptyList()
-//        );
+
     }
 }
