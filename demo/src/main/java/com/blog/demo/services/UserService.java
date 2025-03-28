@@ -9,6 +9,7 @@ import com.blog.demo.payloads.UserDto;
 public interface UserService {
     
 
+
     UserDto createUser(UserDto user);
 
     UserDto updateUser(UserDto user, Integer userId);
